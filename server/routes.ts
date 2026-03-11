@@ -38,6 +38,26 @@ export async function registerRoutes(
     if (body.companyName !== undefined) updates.companyName = body.companyName;
     if (body.roleTitle !== undefined) updates.roleTitle = body.roleTitle;
     if (body.jobUrl !== undefined) updates.jobUrl = body.jobUrl;
+    if (body.salary !== undefined) {
+      if (body.salary === null) {
+        updates.salary = null;
+      } else {
+        const sal = Number(body.salary);
+        if (!Number.isInteger(sal) || sal <= 0) {
+          return res.status(400).json({ message: "Salary must be a positive whole number" });
+        }
+        updates.salary = sal;
+      }
+    }
+    if (body.deadline !== undefined) {
+      if (body.deadline === null) {
+        updates.deadline = null;
+      } else if (typeof body.deadline !== "string" || isNaN(Date.parse(body.deadline))) {
+        return res.status(400).json({ message: "Deadline must be a valid date" });
+      } else {
+        updates.deadline = body.deadline;
+      }
+    }
     if (body.notes !== undefined) updates.notes = body.notes;
 
     if (body.status !== undefined) {

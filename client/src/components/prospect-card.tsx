@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Prospect } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Trash2, Pencil, Flame, ThumbsUp, Minus } from "lucide-react";
+import { ExternalLink, Trash2, Pencil, Flame, ThumbsUp, Minus, CalendarClock } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -105,6 +105,15 @@ export function ProspectCard({ prospect }: { prospect: Prospect }) {
 
         <div className="flex items-center gap-1.5 flex-wrap">
           <InterestIndicator level={prospect.interestLevel} />
+          {prospect.deadline && (
+            <span
+              className="inline-flex items-center gap-1 text-xs font-medium text-violet-600 dark:text-violet-400"
+              data-testid={`text-deadline-${prospect.id}`}
+            >
+              <CalendarClock className="w-3 h-3" />
+              {new Date(prospect.deadline + "T00:00:00").toLocaleDateString()}
+            </span>
+          )}
         </div>
 
         {prospect.jobUrl && (

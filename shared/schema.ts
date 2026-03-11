@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, date, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -21,6 +21,8 @@ export const prospects = pgTable("prospects", {
   jobUrl: text("job_url"),
   status: text("status").notNull().default("Bookmarked"),
   interestLevel: text("interest_level").notNull().default("Medium"),
+  salary: integer("salary"),
+  deadline: date("deadline"),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -34,6 +36,8 @@ export const insertProspectSchema = createInsertSchema(prospects).omit({
   status: z.enum(STATUSES).default("Bookmarked"),
   interestLevel: z.enum(INTEREST_LEVELS).default("Medium"),
   jobUrl: z.string().optional().nullable(),
+  salary: z.number().int().positive("Salary must be a positive number").optional().nullable(),
+  deadline: z.string().refine((val) => !isNaN(Date.parse(val)), { message: "Deadline must be a valid date" }).optional().nullable(),
   notes: z.string().optional().nullable(),
 });
 

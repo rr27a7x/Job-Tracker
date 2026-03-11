@@ -39,6 +39,12 @@ export function validateProspect(data: Record<string, unknown>): { valid: boolea
     }
   }
 
+  if (data.deadline !== undefined && data.deadline !== null) {
+    if (typeof data.deadline !== "string" || isNaN(Date.parse(data.deadline))) {
+      errors.push("Deadline must be a valid date");
+    }
+  }
+
   return { valid: errors.length === 0, errors };
 }
 
