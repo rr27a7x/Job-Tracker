@@ -37,7 +37,10 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
       status: "Bookmarked",
       interestLevel: "Medium",
       salary: null,
+<<<<<<< HEAD
       deadline: null,
+=======
+>>>>>>> origin/main
       notes: "",
     },
   });
@@ -185,6 +188,7 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
 
         <FormField
           control={form.control}
+<<<<<<< HEAD
           name="deadline"
           render={({ field }) => (
             <FormItem>
@@ -205,6 +209,8 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
 
         <FormField
           control={form.control}
+=======
+>>>>>>> origin/main
           name="notes"
           render={({ field }) => (
             <FormItem>

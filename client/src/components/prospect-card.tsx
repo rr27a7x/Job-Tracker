@@ -1,7 +1,11 @@
 import { useState } from "react";
 import type { Prospect } from "@shared/schema";
 import { Button } from "@/components/ui/button";
+<<<<<<< HEAD
 import { ExternalLink, Trash2, Pencil, Flame, ThumbsUp, Minus, DollarSign, CalendarClock } from "lucide-react";
+=======
+import { ExternalLink, Trash2, Pencil, Flame, ThumbsUp, Minus, DollarSign } from "lucide-react";
+>>>>>>> origin/main
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -114,6 +118,7 @@ export function ProspectCard({ prospect }: { prospect: Prospect }) {
               {prospect.salary.toLocaleString()}
             </span>
           )}
+<<<<<<< HEAD
           {prospect.deadline && (
             <span
               className="inline-flex items-center gap-1 text-xs font-medium text-violet-600 dark:text-violet-400"
@@ -123,6 +128,8 @@ export function ProspectCard({ prospect }: { prospect: Prospect }) {
               {new Date(prospect.deadline + "T00:00:00").toLocaleDateString()}
             </span>
           )}
+=======
+>>>>>>> origin/main
         </div>
 
         {prospect.jobUrl && (

@@ -60,6 +60,18 @@ export async function registerRoutes(
     }
     if (body.notes !== undefined) updates.notes = body.notes;
 
+    if (body.salary !== undefined) {
+      if (body.salary === null) {
+        updates.salary = null;
+      } else {
+        const sal = Number(body.salary);
+        if (!Number.isInteger(sal) || sal <= 0) {
+          return res.status(400).json({ message: "Salary must be a positive whole number" });
+        }
+        updates.salary = sal;
+      }
+    }
+
     if (body.status !== undefined) {
       if (!STATUSES.includes(body.status)) {
         return res.status(400).json({ message: `Status must be one of: ${STATUSES.join(", ")}` });

@@ -42,7 +42,10 @@ export function EditProspectForm({ prospect, onSuccess }: EditProspectFormProps)
       status: prospect.status as InsertProspect["status"],
       interestLevel: prospect.interestLevel as InsertProspect["interestLevel"],
       salary: prospect.salary ?? null,
+<<<<<<< HEAD
       deadline: prospect.deadline ?? null,
+=======
+>>>>>>> origin/main
       notes: prospect.notes ?? "",
     },
   });
@@ -189,6 +192,7 @@ export function EditProspectForm({ prospect, onSuccess }: EditProspectFormProps)
 
         <FormField
           control={form.control}
+<<<<<<< HEAD
           name="deadline"
           render={({ field }) => (
             <FormItem>
@@ -209,6 +213,8 @@ export function EditProspectForm({ prospect, onSuccess }: EditProspectFormProps)
 
         <FormField
           control={form.control}
+=======
+>>>>>>> origin/main
           name="notes"
           render={({ field }) => (
             <FormItem>
