@@ -1,48 +1,60 @@
-# JobTrackr
+# Job Prospect Tracker
 
-A Kanban-style job search tracker built with React, Express, and PostgreSQL. Prospects are organized into columns by pipeline status and can be created, edited, and deleted through a clean card-based interface.
+A full-stack web application for tracking job prospects throughout the hiring process.
 
-## Tech Stack
+## Architecture
 
-- **Frontend**: React 18 (Vite), Tailwind CSS, shadcn/ui, TanStack React Query, wouter
-- **Backend**: Express.js (TypeScript), Drizzle ORM, node-postgres
-- **Database**: PostgreSQL
+- **Frontend**: React 18 + TypeScript, Vite, Tailwind CSS, Shadcn UI components
+- **Backend**: Express 5 + TypeScript, served via `tsx` in development
+- **Database**: PostgreSQL with Drizzle ORM
+- **Routing**: Wouter (client-side), Express (API)
+- **State Management**: TanStack React Query
 
-## File Structure
+## Project Structure
 
 ```
-shared/schema.ts              - Database table definition, Zod validation, TypeScript types
-server/
-  index.ts                    - Express app bootstrap, middleware, server start
-  db.ts                       - PostgreSQL connection pool (Drizzle)
-  routes.ts                   - API route handlers (GET/POST/PATCH/DELETE)
-  storage.ts                  - Storage interface + DatabaseStorage class
-  prospect-helpers.ts         - Pure helper functions (getNextStatus, validateProspect, isTerminalStatus)
-client/src/
-  App.tsx                     - Root component, routing, providers
-  pages/home.tsx              - Kanban board with 7 status columns
-  components/
-    prospect-card.tsx         - Card component with edit/delete actions
-    add-prospect-form.tsx     - Dialog form for creating prospects
-    edit-prospect-form.tsx    - Dialog form for editing prospects
-    ui/                       - shadcn/ui primitives
+client/         - React frontend application
+  src/
+    App.tsx     - Main app with routing
+    main.tsx    - Entry point
+    pages/      - Page components
+    components/ - Reusable UI components
+    hooks/      - Custom React hooks
+    lib/        - Utilities
+
+server/         - Express backend
+  index.ts      - Server entry point (port 5000)
+  routes.ts     - API routes for prospects CRUD
+  storage.ts    - Database access layer (DatabaseStorage)
+  db.ts         - Drizzle/PostgreSQL connection
+  vite.ts       - Vite dev server integration
+  static.ts     - Static file serving (production)
+
+shared/         - Shared TypeScript types and schemas
+  schema.ts     - Drizzle schema + Zod validation for prospects table
 ```
 
-## Database
+## Key Scripts
 
-Single `prospects` table: id, company_name, role_title, job_url, status, interest_level, notes, created_at.
+- `npm run dev` - Start development server (tsx + Vite HMR on port 5000)
+- `npm run build` - Build for production
+- `npm run start` - Run production build
+- `npm run db:push` - Sync database schema with Drizzle
 
-- **Statuses**: Bookmarked, Applied, Phone Screen, Interviewing, Offer, Rejected, Withdrawn
-- **Interest levels**: High, Medium, Low
+## Database Schema
 
-## API
+**prospects** table:
+- `id` (serial, PK)
+- `company_name` (text, required)
+- `role_title` (text, required)
+- `job_url` (text, optional)
+- `status` (text): Bookmarked | Applied | Phone Screen | Interviewing | Offer | Rejected | Withdrawn
+- `interest_level` (text): High | Medium | Low
+- `notes` (text, optional)
+- `created_at` (timestamp with timezone)
 
-- `GET /api/prospects` - list all, ordered by created_at DESC
-- `POST /api/prospects` - create (validated with Zod)
-- `PATCH /api/prospects/:id` - partial update with field validation
-- `DELETE /api/prospects/:id` - delete
+## Environment Variables
 
-## Running
-
-- `npm run dev` starts the full app (Express + Vite)
-- `npm run db:push` syncs schema to database
+- `DATABASE_URL` - PostgreSQL connection string (auto-set by Replit)
+- `PORT` - Server port (defaults to 5000)
+- `NODE_ENV` - development | production
