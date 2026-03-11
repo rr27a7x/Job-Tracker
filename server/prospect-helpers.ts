@@ -39,9 +39,15 @@ export function validateProspect(data: Record<string, unknown>): { valid: boolea
     }
   }
 
+<<<<<<< HEAD
+  if (data.deadline !== undefined && data.deadline !== null) {
+    if (typeof data.deadline !== "string" || isNaN(Date.parse(data.deadline))) {
+      errors.push("Deadline must be a valid date");
+=======
   if (data.salary !== undefined && data.salary !== null) {
     if (typeof data.salary !== "number" || !Number.isInteger(data.salary) || data.salary <= 0) {
       errors.push("Salary must be a positive whole number");
+>>>>>>> origin/main
     }
   }
 

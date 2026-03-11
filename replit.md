@@ -51,6 +51,10 @@ shared/         - Shared TypeScript types and schemas
 - `status` (text): Bookmarked | Applied | Phone Screen | Interviewing | Offer | Rejected | Withdrawn
 - `interest_level` (text): High | Medium | Low
 - `salary` (integer, optional) - target salary in whole dollars
+<<<<<<< HEAD
+- `deadline` (date, optional) - application deadline
+=======
+>>>>>>> origin/main
 - `notes` (text, optional)
 - `created_at` (timestamp with timezone)
 

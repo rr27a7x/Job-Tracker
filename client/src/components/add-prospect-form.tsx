@@ -37,6 +37,10 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
       status: "Bookmarked",
       interestLevel: "Medium",
       salary: null,
+<<<<<<< HEAD
+      deadline: null,
+=======
+>>>>>>> origin/main
       notes: "",
     },
   });
@@ -184,6 +188,29 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
 
         <FormField
           control={form.control}
+<<<<<<< HEAD
+          name="deadline"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Application Deadline (optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  {...field}
+                  value={field.value ?? ""}
+                  onChange={(e) => field.onChange(e.target.value || null)}
+                  data-testid="input-deadline"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+=======
+>>>>>>> origin/main
           name="notes"
           render={({ field }) => (
             <FormItem>
