@@ -13,6 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
@@ -30,11 +37,20 @@ function KanbanColumn({
   status,
   prospects,
   isLoading,
+  interestFilter,
+  onInterestFilterChange,
 }: {
   status: string;
   prospects: Prospect[];
   isLoading: boolean;
+  interestFilter: string;
+  onInterestFilterChange: (value: string) => void;
 }) {
+  const filtered =
+    interestFilter === "All"
+      ? prospects
+      : prospects.filter((p) => p.interestLevel === interestFilter);
+
   return (
     <div
       className="flex flex-col min-w-[260px] max-w-[320px] w-full bg-muted/40 rounded-md"
@@ -48,8 +64,24 @@ function KanbanColumn({
           className="ml-auto text-[10px] px-1.5 py-0 h-5 min-w-[20px] flex items-center justify-center no-default-active-elevate"
           data-testid={`badge-count-${status.replace(/\s+/g, "-").toLowerCase()}`}
         >
-          {prospects.length}
+          {filtered.length}
         </Badge>
+      </div>
+      <div className="px-2 pt-2">
+        <Select value={interestFilter} onValueChange={onInterestFilterChange}>
+          <SelectTrigger
+            className="h-7 text-xs w-full"
+            data-testid={`filter-interest-${status.replace(/\s+/g, "-").toLowerCase()}`}
+          >
+            <SelectValue placeholder="Interest" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All</SelectItem>
+            <SelectItem value="High">High</SelectItem>
+            <SelectItem value="Medium">Medium</SelectItem>
+            <SelectItem value="Low">Low</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div className="flex-1 overflow-y-auto px-2 py-2">
         <div className="space-y-2">
@@ -58,12 +90,12 @@ function KanbanColumn({
               <Skeleton className="h-28 rounded-md" />
               <Skeleton className="h-20 rounded-md" />
             </>
-          ) : prospects.length === 0 ? (
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-center" data-testid={`empty-${status.replace(/\s+/g, "-").toLowerCase()}`}>
               <p className="text-xs text-muted-foreground">No prospects</p>
             </div>
           ) : (
-            prospects.map((prospect) => (
+            filtered.map((prospect) => (
               <ProspectCard key={prospect.id} prospect={prospect} />
             ))
           )}
@@ -75,6 +107,9 @@ function KanbanColumn({
 
 export default function Home() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [columnFilters, setColumnFilters] = useState<Record<string, string>>(
+    () => Object.fromEntries(STATUSES.map((s) => [s, "All"])),
+  );
 
   const { data: prospects, isLoading } = useQuery<Prospect[]>({
     queryKey: ["/api/prospects"],
@@ -134,6 +169,10 @@ export default function Home() {
               status={status}
               prospects={groupedByStatus[status] || []}
               isLoading={isLoading}
+              interestFilter={columnFilters[status]}
+              onInterestFilterChange={(value) =>
+                setColumnFilters((prev) => ({ ...prev, [status]: value }))
+              }
             />
           ))}
         </div>
